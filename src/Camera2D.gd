@@ -20,6 +20,10 @@ func _input(event):
 	elif event.is_action_pressed("editor_zoom_out"):
 		self.target_zoom += ZOOM_STEP
 
+func _ready():
+	yield(get_tree(), "idle_frame")
+	global_position = get_parent().rect_size/2.0
+
 func _process(_delta):
 	self.zoom.x = lerp(self.zoom.x, target_zoom, 0.25)
 	self.zoom.y = self.zoom.x
