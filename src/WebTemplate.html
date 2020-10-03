@@ -16,6 +16,11 @@
 			background-color: black;
 		}
 
+		#textbox {
+			height: 70px;
+			overflow: auto;
+		}
+
 		#test {
 			color: white;
 		}
@@ -119,7 +124,7 @@
 $GODOT_HEAD_INCLUDE
 </head>
 <body>
-	<textarea id="textbox"> </textarea>
+	<textarea id="textbox"></textarea>
 	<canvas id='canvas'>
 		HTML5 canvas appears to be unsupported in the current browser.<br />
 		Please try updating or use a different browser.
@@ -146,6 +151,11 @@ $GODOT_HEAD_INCLUDE
 		var setStatusMode;
 		var setStatusNotice;
 
+		function setTextbox(data) {
+			var textbox = document.getElementById('textbox');
+			textbox.value = atob(data);
+		}
+
 		(function() {
 
 			const EXECUTABLE_NAME = '$GODOT_BASENAME';
@@ -153,6 +163,7 @@ $GODOT_HEAD_INCLUDE
 			const INDETERMINATE_STATUS_STEP_MS = 100;
 
 			var canvas = document.getElementById('canvas');
+			var textbox = document.getElementById('textbox');
 			var statusProgress = document.getElementById('status-progress');
 			var statusProgressInner = document.getElementById('status-progress-inner');
 			var statusIndeterminate = document.getElementById('status-indeterminate');
@@ -171,7 +182,7 @@ $GODOT_HEAD_INCLUDE
 			function adjustCanvasDimensions() {	
 					var scale = window.devicePixelRatio || 1;	
 					var width = window.innerWidth;	
-					var height = window.innerHeight;	
+					var height = window.innerHeight - textbox.offsetHeight;	
 					canvas.width = width * scale;	
 					canvas.height = height * scale;	
 					canvas.style.width = width + "px";	
@@ -188,6 +199,7 @@ $GODOT_HEAD_INCLUDE
 				}	
 				animationCallbacks.push(adjustCanvasDimensions);	
 				adjustCanvasDimensions();
+			window.onload = window.onresize = adjustCanvasDimensions;
 
 			setStatusMode = function setStatusMode(mode) {
 

@@ -115,7 +115,7 @@ func _new_instruction(index: int, text: String = "placeholder", complexity: int 
 	
 	_currently_displayed[index] = cur_instruction
 	
-	_max_ring_of_complexity = max(_max_ring_of_complexity, complexity)
+	_max_ring_of_complexity = int(max(_max_ring_of_complexity, complexity))
 	
 	cur_instruction.index = index
 	cur_instruction.step_text = text

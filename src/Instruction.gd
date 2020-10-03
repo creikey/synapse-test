@@ -24,7 +24,8 @@ func initialize_visually():
 			OS.alert(str("Warning: Index ", index, " has invalid next step index ", next_step_index, ", points to nothing!"))
 			$Line2D.visible = false
 			return
-		currently_displayed[next_step_index].connect("moved", self, "_on_target_moved")
+		if not currently_displayed[next_step_index].is_connected("moved", self, "_on_target_moved"):
+			currently_displayed[next_step_index].connect("moved", self, "_on_target_moved")
 		_update_line_target()
 	else:
 		$Line2D.visible = false
