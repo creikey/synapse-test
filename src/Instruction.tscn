@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Instruction.gd" type="Script" id=1]
+[ext_resource path="res://UITheme.tres" type="Theme" id=2]
+
+[node name="Instruction" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -774.0
+margin_bottom = -444.0
+rect_clip_content = true
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="V" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 243.0
+margin_bottom = 149.0
+
+[node name="TextEdit" type="TextEdit" parent="V"]
+margin_right = 236.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "error"
+wrap_enabled = true
+
+[node name="MoveButton" type="Button" parent="V"]
+margin_top = 104.0
+margin_right = 236.0
+margin_bottom = 142.0
+text = "Move"

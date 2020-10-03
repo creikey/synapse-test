@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "LineEdit",
+"base": "Control",
+"class": "Instruction",
+"language": "GDScript",
+"path": "res://Instruction.gd"
+}, {
+"base": "Node2D",
 "class": "Synapse",
 "language": "GDScript",
 "path": "res://Synapse.gd"
 } ]
 _global_script_class_icons={
+"Instruction": "",
 "Synapse": ""
 }
 

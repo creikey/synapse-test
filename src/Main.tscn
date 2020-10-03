@@ -9,6 +9,7 @@
 [node name="Main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -44,20 +45,9 @@ margin_right = 656.0
 margin_bottom = 38.0
 text = "To clipboard"
 
-[node name="Synapse" type="LineEdit" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -172.0
-margin_top = -110.5
-margin_right = 172.0
-margin_bottom = 110.5
-align = 1
+[node name="Synapse" type="Node2D" parent="."]
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+ring_color_brightest = Color( 0.694118, 0.792157, 1, 1 )
 [connection signal="load_data" from="UI" to="Synapse" method="_on_UI_load_data"]
 [connection signal="pressed" from="UI/FileMenu/LoadButton" to="UI" method="_on_LoadButton_pressed"]
 [connection signal="pressed" from="UI/FileMenu/ToClipButton" to="UI" method="_on_ToClipButton_pressed"]
