@@ -82,6 +82,10 @@ func _on_UI_load_data(data_string: String):
 
 		_new_instruction(int(data[0]), data[1], int(data[2]), next_step_index, position_override_vector2)
 
+	# initialize visuals after all have been loaded, to get rect size for sorting
+	for cur_instruction in _currently_displayed.values():
+		cur_instruction.initialize_visually()
+
 	# sort by ring of complexity
 	var instructions_in_layer1: Array = []
 	for instruction in _currently_displayed.values():
@@ -97,6 +101,10 @@ func _on_UI_load_data(data_string: String):
 			else:
 				cur_instruction.rect_position = Vector2(cos(angle), sin(angle)) * ((float(cur_instruction.complexity_layer - 1)*_RING_RADIUS) + _RING_RADIUS/2.0) - cur_instruction.rect_size/2.0
 			cur_instruction = _currently_displayed.get(cur_instruction.next_step_index)
+	
+	# initialize visuals again after all have been loaded, this time for the lines
+	for cur_instruction in _currently_displayed.values():
+		cur_instruction.initialize_visually()
 	
 
 	update() # will draw rings of complexity
@@ -114,5 +122,4 @@ func _new_instruction(index: int, text: String = "placeholder", complexity: int 
 	cur_instruction.complexity_layer = complexity
 	cur_instruction.next_step_index = next_index
 	cur_instruction.position_override_vector2 = position_override_vector2
-	
-	cur_instruction.initialize_visually()
+	cur_instruction.currently_displayed = _currently_displayed
