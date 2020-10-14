@@ -23,7 +23,7 @@ func get_data() -> String:
 		cur_line += str(index, "	")
 		cur_line += str(cur_instruction.step_text, "	")
 		cur_line += str(cur_instruction.complexity_layer, "	")
-		if cur_instruction.next_step_index == -1:
+		if cur_instruction.next_step_indices[0] == -1:
 			cur_line += "	"
 		else:
 			cur_line += str(cur_instruction.next_step_index, "	")
@@ -70,9 +70,10 @@ func _on_UI_load_data(data_string: String):
 			continue
 #		printt("Making instruction with text: ", data[1])
 		#index, instruction step, complexity, next index
-		var next_step_index: int = int(data[3])
-		if data[3] == "":
-			next_step_index = -1
+#		var next_step_indices: Array = int(data[3])
+		var next_step_indices: Array = _intstring_to_array(data[3])
+		if next_step_indices.size() == 0:
+			next_step_indices.append(-1)
 		var position_override_vector2 = null
 		
 		# TODO analyzed flag
@@ -80,7 +81,7 @@ func _on_UI_load_data(data_string: String):
 		if data[5] != "":
 			position_override_vector2 = str2var(data[5])
 
-		_new_instruction(int(data[0]), data[1], int(data[2]), next_step_index, position_override_vector2)
+		_new_instruction(int(data[0]), data[1], int(data[2]), next_step_indices, position_override_vector2)
 
 	# initialize visuals after all have been loaded, to get rect size for sorting
 	for cur_instruction in _currently_displayed.values():
@@ -109,7 +110,27 @@ func _on_UI_load_data(data_string: String):
 
 	update() # will draw rings of complexity
 
-func _new_instruction(index: int, text: String = "placeholder", complexity: int = 1, next_index: int = -1, position_override_vector2 = null):
+func _array_to_string(a: Array) -> String:
+	var to_return: String = ""
+	for i in a.size():
+		var extension: String = ", "
+		if i == a.size() - 1: # last element, no comma
+			extension = "" 
+		to_return += str(a[i], extension)
+	return to_return
+
+func _intstring_to_array(s: String) -> Array:
+	if s == "":
+		return []
+	var to_return: Array = []
+	var initial_split: PoolStringArray = s.split(",")
+	
+	for s in initial_split:
+		to_return.append(int(s))
+	
+	return to_return
+
+func _new_instruction(index: int, text: String = "placeholder", complexity: int = 1, next_indices: Array = [ -1 ], position_override_vector2 = null):
 	var cur_instruction: Instruction = _INSTRUCTION_PACK.instance()
 	add_child(cur_instruction)
 	
@@ -120,6 +141,6 @@ func _new_instruction(index: int, text: String = "placeholder", complexity: int 
 	cur_instruction.index = index
 	cur_instruction.step_text = text
 	cur_instruction.complexity_layer = complexity
-	cur_instruction.next_step_indices.append(next_index)
+	cur_instruction.next_step_indices = next_indices.duplicate(true)
 	cur_instruction.position_override_vector2 = position_override_vector2
 	cur_instruction.currently_displayed = _currently_displayed
