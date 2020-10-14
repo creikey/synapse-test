@@ -2,7 +2,7 @@ extends Camera2D
 
 const ZOOM_MIN = 0.3
 const ZOOM_MAX = 8.0
-const ZOOM_STEP = 0.1
+const ZOOM_STEP = 0.25
 const FOCUS_PADDING = 1500.0
 
 var target_zoom: float = 1.0 setget set_target_zoom
