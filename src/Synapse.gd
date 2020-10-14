@@ -6,6 +6,7 @@ export var ring_color_brightest: = Color(1, 1, 1)
 
 const _RING_RADIUS: float = 500.0
 const _INSTRUCTION_PACK: PackedScene = preload("res://Instruction.tscn")
+const _EXPECTED_COLUMNS: int = 6
 
 # index to node reference
 var _currently_displayed: Dictionary = {}
@@ -15,7 +16,7 @@ var _max_ring_of_complexity: int = -1
 
 func get_data() -> String:
 	# has the header line as the top
-	var lines_to_return: Array = ["index	Instructional Step	Complexity Layer ( starts at 1 )	The next step's index	Analyzed ( true/false ), if blank will be false	Position Override ( if blank auto sorts )"]
+	var lines_to_return: Array = ["index	Instructional Step	Complexity Layer ( starts at 1 )	The next step's indices	Analyzed ( true/false ), if blank will be false	Position Override ( if blank auto sorts )"]
 	
 	for index in _currently_displayed.keys():
 		var cur_line: String = ""
@@ -58,8 +59,12 @@ func _on_UI_load_data(data_string: String):
 	# load
 	var valid: bool = false
 	_max_ring_of_complexity = -1
+	var line_number: int = 0
 	for line in data_string.split("\n"):
 		var data: Array = line.split("	")
+		if data.size() != _EXPECTED_COLUMNS:
+			OS.alert(str("Line number ", line_number, " in the data has ", data.size(), " columns of data when I expect ", _EXPECTED_COLUMNS, " columns!"))
+			continue
 		if data[0] == "index":
 			valid = true
 			continue
@@ -82,6 +87,7 @@ func _on_UI_load_data(data_string: String):
 			position_override_vector2 = str2var(data[5])
 
 		_new_instruction(int(data[0]), data[1], int(data[2]), next_step_indices, position_override_vector2)
+		line_number += 1
 
 	# initialize visuals after all have been loaded, to get rect size for sorting
 	for cur_instruction in _currently_displayed.values():
