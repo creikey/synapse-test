@@ -22,7 +22,7 @@ func get_data() -> String:
 		var cur_line: String = ""
 		var cur_instruction: Instruction = _currently_displayed[index]
 		cur_line += str(index, "	")
-		cur_line += str(cur_instruction.step_text, "	")
+		cur_line += str(_escape_string(cur_instruction.step_text), "	")
 		cur_line += str(cur_instruction.complexity_layer, "	")
 		if cur_instruction.next_step_indices[0] == -1:
 			cur_line += "	"
@@ -86,7 +86,7 @@ func _on_UI_load_data(data_string: String):
 		if data[5] != "":
 			position_override_vector2 = str2var(data[5])
 
-		_new_instruction(int(data[0]), data[1], int(data[2]), next_step_indices, position_override_vector2)
+		_new_instruction(int(data[0]), _unescape_string(data[1]), int(data[2]), next_step_indices, position_override_vector2)
 		line_number += 1
 
 	# initialize visuals after all have been loaded, to get rect size for sorting
@@ -118,7 +118,13 @@ func _on_UI_load_data(data_string: String):
 
 	update() # will draw rings of complexity
 
-func _array_to_string(a: Array) -> String:
+static func _escape_string(s: String) -> String: # replaces newlines with `\n`
+	return s.c_escape()
+
+static func _unescape_string(s: String) -> String:
+	return s.c_unescape()
+
+static func _array_to_string(a: Array) -> String:
 	var to_return: String = ""
 	for i in a.size():
 		var extension: String = ", "
@@ -127,7 +133,7 @@ func _array_to_string(a: Array) -> String:
 		to_return += str(a[i], extension)
 	return to_return
 
-func _intstring_to_array(s: String) -> Array:
+static func _intstring_to_array(s: String) -> Array:
 	if s == "":
 		return []
 	var to_return: Array = []
