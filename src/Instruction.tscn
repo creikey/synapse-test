@@ -34,9 +34,7 @@ margin_right = 236.0
 margin_bottom = 142.0
 text = "Move"
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="ConnectionLines" type="Node2D" parent="."]
 show_behind_parent = true
-points = PoolVector2Array( 0, 0, 800, 500 )
-antialiased = true
 [connection signal="resized" from="." to="." method="_on_Instruction_resized"]
 [connection signal="text_changed" from="V/TextEdit" to="." method="_on_TextEdit_text_changed"]

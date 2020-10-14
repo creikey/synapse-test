@@ -100,7 +100,7 @@ func _on_UI_load_data(data_string: String):
 				cur_instruction.rect_position = cur_instruction.position_override_vector2
 			else:
 				cur_instruction.rect_position = Vector2(cos(angle), sin(angle)) * ((float(cur_instruction.complexity_layer - 1)*_RING_RADIUS) + _RING_RADIUS/2.0) - cur_instruction.rect_size/2.0
-			cur_instruction = _currently_displayed.get(cur_instruction.next_step_index)
+			cur_instruction = _currently_displayed.get(cur_instruction.next_step_indices[0])
 	
 	# initialize visuals again after all have been loaded, this time for the lines
 	for cur_instruction in _currently_displayed.values():
@@ -120,6 +120,6 @@ func _new_instruction(index: int, text: String = "placeholder", complexity: int 
 	cur_instruction.index = index
 	cur_instruction.step_text = text
 	cur_instruction.complexity_layer = complexity
-	cur_instruction.next_step_index = next_index
+	cur_instruction.next_step_indices.append(next_index)
 	cur_instruction.position_override_vector2 = position_override_vector2
 	cur_instruction.currently_displayed = _currently_displayed
