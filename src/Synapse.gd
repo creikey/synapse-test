@@ -103,11 +103,13 @@ func _on_UI_load_data(data_string: String):
 		var angle: float = (float(i) / float(instructions_in_layer1.size()))*2.0*PI
 		var cur_instruction: Instruction = instructions_in_layer1[i]
 		while cur_instruction != null:
-			if cur_instruction.position_override_vector2 != null:
-				cur_instruction.rect_position = cur_instruction.position_override_vector2
-			else:
-				cur_instruction.rect_position = Vector2(cos(angle), sin(angle)) * ((float(cur_instruction.complexity_layer - 1)*_RING_RADIUS) + _RING_RADIUS/2.0) - cur_instruction.rect_size/2.0
+			cur_instruction.rect_position = Vector2(cos(angle), sin(angle)) * ((float(cur_instruction.complexity_layer - 1)*_RING_RADIUS) + _RING_RADIUS/2.0) - cur_instruction.rect_size/2.0
 			cur_instruction = _currently_displayed.get(cur_instruction.next_step_indices[0])
+	
+	# iterating again... bad!
+	for cur_instruction in _currently_displayed.values():
+		if cur_instruction.position_override_vector2 != null:
+			cur_instruction.rect_position = cur_instruction.position_override_vector2
 	
 	# initialize visuals again after all have been loaded, this time for the lines
 	for cur_instruction in _currently_displayed.values():
