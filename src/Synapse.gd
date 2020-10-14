@@ -26,7 +26,7 @@ func get_data() -> String:
 		if cur_instruction.next_step_indices[0] == -1:
 			cur_line += "	"
 		else:
-			cur_line += str(cur_instruction.next_step_index, "	")
+			cur_line += str(_array_to_string(cur_instruction.next_step_indices), "	")
 		if cur_instruction.analyzed_bool == null:
 			cur_line += "	"
 		else:
