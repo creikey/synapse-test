@@ -5,7 +5,7 @@ class_name Synapse
 export var ring_color_brightest: = Color(1, 1, 1)
 
 const _RING_RADIUS: float = 500.0
-const _INSTRUCTION_PACK: PackedScene = preload("res://Instruction.tscn")
+const _INSTRUCTION_PACK: PackedScene = preload("res://Instruction/Instruction.tscn")
 const _EXPECTED_COLUMNS: int = 6
 
 # index to node reference

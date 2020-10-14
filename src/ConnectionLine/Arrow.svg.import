@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Arrow.svg-c2d3a68dfe98d27930befa018d627c2d.stex"
+path="res://.import/Arrow.svg-b5693abd2b5a0d0c44933dd23f5ea436.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Arrow.svg"
-dest_files=[ "res://.import/Arrow.svg-c2d3a68dfe98d27930befa018d627c2d.stex" ]
+source_file="res://ConnectionLine/Arrow.svg"
+dest_files=[ "res://.import/Arrow.svg-b5693abd2b5a0d0c44933dd23f5ea436.stex" ]
 
 [params]
 

@@ -12,22 +12,22 @@ _global_script_classes=[ {
 "base": "Line2D",
 "class": "ConnectionLine",
 "language": "GDScript",
-"path": "res://ConnectionLine.gd"
+"path": "res://ConnectionLine/ConnectionLine.gd"
 }, {
 "base": "Sprite",
 "class": "DirectionArrow",
 "language": "GDScript",
-"path": "res://DirectionArrow.gd"
+"path": "res://ConnectionLine/DirectionArrow.gd"
 }, {
 "base": "Control",
 "class": "Instruction",
 "language": "GDScript",
-"path": "res://Instruction.gd"
+"path": "res://Instruction/Instruction.gd"
 }, {
 "base": "Node2D",
 "class": "Synapse",
 "language": "GDScript",
-"path": "res://Synapse.gd"
+"path": "res://Graph/Graph.gd"
 } ]
 _global_script_class_icons={
 "ConnectionLine": "",

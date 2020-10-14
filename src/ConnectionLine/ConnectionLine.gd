@@ -22,7 +22,7 @@ func set_target(new_target):
 
 
 func _on_ArrowSpawnTimer_timeout():
-	var new_arrow: DirectionArrow = preload("res://DirectionArrow.tscn").instance()
+	var new_arrow: DirectionArrow = preload("res://ConnectionLine/DirectionArrow.tscn").instance()
 	add_child(new_arrow)
 	new_arrow.modulate = default_color
 	new_arrow.follow_line(global_position, _target_by_reference, 0.0)

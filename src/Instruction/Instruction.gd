@@ -37,10 +37,10 @@ func initialize_visually():
 	
 		var cur_line: ConnectionLine
 		if not made_first_line:
-			cur_line = preload("res://ConnectionLine.tscn").instance()
+			cur_line = preload("res://ConnectionLine/ConnectionLine.tscn").instance()
 			made_first_line = true
 		else:
-			cur_line = preload("res://TangentConnectionLine.tscn").instance()
+			cur_line = preload("res://ConnectionLine/TangentConnectionLine.tscn").instance()
 		$ConnectionLines.add_child(cur_line)
 		
 		var target_instruction: Instruction = currently_displayed[cur_index]
