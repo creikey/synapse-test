@@ -19,6 +19,7 @@ func get_centerpoint() -> Vector2:
 
 func initialize_visually():
 	$V/TextEdit.text = step_text
+	$V/IndexNumber.text = str(index)
 	rect_size = Vector2(300, 200)
 	if not next_step_indices.size() > 0:
 		return

@@ -22,17 +22,24 @@ margin_bottom = 149.0
 
 [node name="TextEdit" type="TextEdit" parent="V"]
 margin_right = 236.0
-margin_bottom = 100.0
+margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "error"
 wrap_enabled = true
 
 [node name="MoveButton" type="Button" parent="V"]
-margin_top = 104.0
+margin_top = 68.0
+margin_right = 236.0
+margin_bottom = 106.0
+text = "Move"
+
+[node name="IndexNumber" type="Label" parent="V"]
+margin_top = 110.0
 margin_right = 236.0
 margin_bottom = 142.0
-text = "Move"
+text = "3"
+align = 1
 
 [node name="ConnectionLines" type="Node2D" parent="."]
 show_behind_parent = true
