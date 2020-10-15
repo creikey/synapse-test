@@ -40,14 +40,6 @@ func get_data() -> String:
 		
 	
 	return PoolStringArray(lines_to_return).join("\n")
-
-func _draw():
-	var current_ring: int = _max_ring_of_complexity
-	while current_ring > 0:
-		var progress_fraction: float = float(current_ring) / float(_max_ring_of_complexity)
-		var current_color: Color = Color.from_hsv(ring_color_brightest.h, ring_color_brightest.s, lerp(ring_color_brightest.v, 0.1, progress_fraction))
-		draw_circle(Vector2(), float(current_ring)*_RING_RADIUS, current_color)
-		current_ring -= 1
 	
 
 func _on_UI_load_data(data_string: String):
@@ -115,8 +107,8 @@ func _on_UI_load_data(data_string: String):
 	for cur_instruction in _currently_displayed.values():
 		cur_instruction.initialize_visually()
 	
-
-	update() # will draw rings of complexity
+	$"../Circles".update()
+#	update() # will draw rings of complexity
 
 static func _escape_string(s: String) -> String: # replaces newlines with `\n`
 	return s.c_escape()

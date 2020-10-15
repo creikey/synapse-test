@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Graph/Camera2D.gd" type="Script" id=1]
 [ext_resource path="res://Theme.tres" type="Theme" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Graph/Graph.gd" type="Script" id=4]
 [ext_resource path="res://UI/LoadButton.gd" type="Script" id=5]
 [ext_resource path="res://UI/ToClipButton.gd" type="Script" id=6]
+[ext_resource path="res://Circles.gd" type="Script" id=7]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -50,6 +51,11 @@ script = ExtResource( 6 )
 [node name="Graph" type="Node2D" parent="."]
 script = ExtResource( 4 )
 ring_color_brightest = Color( 0.694118, 0.792157, 1, 1 )
+
+[node name="Circles" type="Node2D" parent="."]
+z_index = -3
+z_as_relative = false
+script = ExtResource( 7 )
 [connection signal="load_data" from="UI" to="Graph" method="_on_UI_load_data"]
 [connection signal="pressed" from="UI/FileMenu/LoadButton" to="UI" method="_on_LoadButton_pressed"]
 [connection signal="pressed" from="UI/FileMenu/ToClipButton" to="UI" method="_on_ToClipButton_pressed"]
