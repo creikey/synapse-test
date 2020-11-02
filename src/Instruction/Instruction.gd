@@ -4,6 +4,8 @@ class_name Instruction
 
 signal moved
 
+const SELECTED_PANEL_CONTAINER: StyleBox = preload("res://Styleboxes/SelectedPanelContainer.tres")
+
 var index: int = 1
 var step_text: String = ""
 var complexity_layer: int = 0
@@ -13,6 +15,14 @@ var position_override_vector2 = null
 
 var currently_displayed: Dictionary = {}
 var _instruction_to_line_pointing_to_it: Dictionary = {}
+var selected: bool = false setget set_selected
+
+func set_selected(new_selected):
+	selected = new_selected
+	if selected:
+		add_stylebox_override("panel", SELECTED_PANEL_CONTAINER)
+	else:
+		add_stylebox_override("panel", null)
 
 func get_centerpoint() -> Vector2:
 	return rect_global_position + rect_size/2.0
@@ -52,7 +62,7 @@ func initialize_visually():
 		_update_line_target(target_instruction)
 
 func _input(event):
-	if event is InputEventMouseMotion and $V/MoveButton.pressed:
+	if event is InputEventMouseMotion and selected:
 		var relative_movement: Vector2 = event.relative
 		# transform from viewport space to local space
 		relative_movement = relative_movement / get_viewport().canvas_transform.get_scale()
@@ -73,3 +83,8 @@ func _update_line_target(instruction: Instruction):
 
 func _on_Instruction_resized():
 	$ConnectionLines.position = rect_size/2.0
+
+
+func _on_Instruction_gui_input(event):
+	if event is InputEventMouseButton and event.button_index == 1:
+		self.selected = event.is_pressed()

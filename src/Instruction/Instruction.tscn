@@ -6,8 +6,8 @@
 [node name="Instruction" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -774.0
-margin_bottom = -444.0
+margin_right = -722.0
+margin_bottom = -394.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -15,33 +15,32 @@ __meta__ = {
 }
 
 [node name="V" type="VBoxContainer" parent="."]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 243.0
-margin_bottom = 149.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 292.0
+margin_bottom = 196.0
 
 [node name="TextEdit" type="TextEdit" parent="V"]
-margin_right = 236.0
-margin_bottom = 64.0
+margin_right = 282.0
+margin_bottom = 132.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "error"
 wrap_enabled = true
 
-[node name="MoveButton" type="Button" parent="V"]
-margin_top = 68.0
-margin_right = 236.0
-margin_bottom = 106.0
-text = "Move"
-
 [node name="IndexNumber" type="Label" parent="V"]
-margin_top = 110.0
-margin_right = 236.0
-margin_bottom = 142.0
+margin_top = 136.0
+margin_right = 282.0
+margin_bottom = 186.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_vertical = 1
+size_flags_stretch_ratio = 0.5
 text = "3"
 align = 1
+valign = 1
 
 [node name="ConnectionLines" type="Node2D" parent="."]
 show_behind_parent = true
+[connection signal="gui_input" from="." to="." method="_on_Instruction_gui_input"]
 [connection signal="resized" from="." to="." method="_on_Instruction_resized"]
 [connection signal="text_changed" from="V/TextEdit" to="." method="_on_TextEdit_text_changed"]
