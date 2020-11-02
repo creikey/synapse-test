@@ -2,6 +2,7 @@ extends Control
 
 class_name Instruction
 
+signal selected
 signal moved
 
 const SELECTED_PANEL_CONTAINER: StyleBox = preload("res://Styleboxes/SelectedPanelContainer.tres")
@@ -18,6 +19,8 @@ var _instruction_to_line_pointing_to_it: Dictionary = {}
 var selected: bool = false setget set_selected
 
 func set_selected(new_selected):
+	if new_selected and not selected:
+		emit_signal("selected")
 	selected = new_selected
 	if selected:
 		add_stylebox_override("panel", SELECTED_PANEL_CONTAINER)
@@ -62,7 +65,7 @@ func initialize_visually():
 		_update_line_target(target_instruction)
 
 func _input(event):
-	if event is InputEventMouseMotion and selected:
+	if event is InputEventMouseMotion and selected and Input.is_action_pressed("editor_click"):
 		var relative_movement: Vector2 = event.relative
 		# transform from viewport space to local space
 		relative_movement = relative_movement / get_viewport().canvas_transform.get_scale()
@@ -86,5 +89,5 @@ func _on_Instruction_resized():
 
 
 func _on_Instruction_gui_input(event):
-	if event is InputEventMouseButton and event.button_index == 1:
-		self.selected = event.is_pressed()
+	if event is InputEventMouseButton and event.button_index == 1 and event.is_pressed():
+		self.selected = true

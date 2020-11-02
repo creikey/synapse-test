@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Graph/Camera2D.gd" type="Script" id=1]
 [ext_resource path="res://Theme.tres" type="Theme" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://UI/FileMenu/ToClipButton.gd" type="Script" id=6]
 [ext_resource path="res://Circles.gd" type="Script" id=7]
 [ext_resource path="res://UI/ToolBar.gd" type="Script" id=8]
+[ext_resource path="res://RubberBandSelector.gd" type="Script" id=9]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -69,6 +70,13 @@ ring_color_brightest = Color( 0.694118, 0.792157, 1, 1 )
 z_index = -3
 z_as_relative = false
 script = ExtResource( 7 )
+
+[node name="RubberBandSelector" type="ColorRect" parent="."]
+color = Color( 1, 1, 1, 0.203922 )
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="load_data" from="UI" to="Graph" method="_on_UI_load_data"]
 [connection signal="pressed" from="UI/FileMenu/LoadButton" to="UI" method="_on_LoadButton_pressed"]
 [connection signal="pressed" from="UI/FileMenu/ToClipButton" to="UI" method="_on_ToClipButton_pressed"]

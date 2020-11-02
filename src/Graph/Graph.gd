@@ -14,6 +14,8 @@ var _currently_displayed: Dictionary = {}
 # data cached from load
 var _max_ring_of_complexity: int = -1
 
+var _selected_instructions: Array = []
+
 func get_data() -> String:
 	# has the header line as the top
 	var lines_to_return: Array = ["index	Instructional Step	Complexity Layer ( starts at 1 )	The next step's indices	Analyzed ( true/false ), if blank will be false	Position Override ( if blank auto sorts )"]
@@ -150,3 +152,13 @@ func _new_instruction(index: int, text: String = "placeholder", complexity: int 
 	cur_instruction.next_step_indices = next_indices.duplicate(true)
 	cur_instruction.position_override_vector2 = position_override_vector2
 	cur_instruction.currently_displayed = _currently_displayed
+	cur_instruction.connect("selected", self, "_on_instruction_selected", [cur_instruction])
+
+func _on_instruction_selected(instruction_reference: Instruction):
+	_selected_instructions.append(instruction_reference)
+
+func _unhandled_input(event):
+	if event.is_action_pressed("editor_click"):
+		for instruction in _selected_instructions:
+			instruction.selected = false
+		_selected_instructions.clear()
