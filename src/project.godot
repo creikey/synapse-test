@@ -28,12 +28,24 @@ _global_script_classes=[ {
 "class": "Synapse",
 "language": "GDScript",
 "path": "res://Graph/Graph.gd"
+}, {
+"base": "Reference",
+"class": "ToolBase",
+"language": "GDScript",
+"path": "res://UI/Tools/ToolBase.gd"
+}, {
+"base": "ToolBase",
+"class": "ToolPointer",
+"language": "GDScript",
+"path": "res://UI/Tools/ToolPointer.gd"
 } ]
 _global_script_class_icons={
 "ConnectionLine": "",
 "DirectionArrow": "",
 "Instruction": "",
-"Synapse": ""
+"Synapse": "",
+"ToolBase": "",
+"ToolPointer": ""
 }
 
 [application]

@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Graph/Camera2D.gd" type="Script" id=1]
 [ext_resource path="res://Theme.tres" type="Theme" id=2]
 [ext_resource path="res://UI/UI.gd" type="Script" id=3]
 [ext_resource path="res://Graph/Graph.gd" type="Script" id=4]
-[ext_resource path="res://UI/LoadButton.gd" type="Script" id=5]
-[ext_resource path="res://UI/ToClipButton.gd" type="Script" id=6]
+[ext_resource path="res://UI/FileMenu/LoadButton.gd" type="Script" id=5]
+[ext_resource path="res://UI/FileMenu/ToClipButton.gd" type="Script" id=6]
 [ext_resource path="res://Circles.gd" type="Script" id=7]
+[ext_resource path="res://UI/ToolBar.gd" type="Script" id=8]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -47,6 +48,18 @@ margin_right = 656.0
 margin_bottom = 38.0
 text = "To clipboard"
 script = ExtResource( 6 )
+
+[node name="ToolBar" type="HBoxContainer" parent="UI"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -100.0
+theme = ExtResource( 2 )
+alignment = 1
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Graph" type="Node2D" parent="."]
 script = ExtResource( 4 )
