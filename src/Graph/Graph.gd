@@ -155,11 +155,22 @@ func _new_instruction(index: int, text: String = "placeholder", complexity: int 
 	cur_instruction.currently_displayed = _currently_displayed
 	cur_instruction.connect("selected", self, "_on_instruction_selected", [cur_instruction])
 
+func _release_focus():
+	var focus_owner = get_parent().get_focus_owner()
+	if focus_owner:
+		focus_owner.release_focus()
+
+func _input(event):
+	if event.is_action("editor_escape"):
+		_release_focus()
+
 func _unhandled_input(event):
 	if event.is_action_pressed("editor_click"):
 		for instruction in _selected_instructions:
 			instruction.selected = false
 		_selected_instructions.clear()
+		_release_focus()
+
 	if not _selected_instructions.size() >= 2:
 		return
 	if event.is_action_pressed("editor_connect_selected"): 
@@ -170,7 +181,7 @@ func _unhandled_input(event):
 				connecting_from.initialize_visually()
 		get_tree().set_input_as_handled()
 	elif event.is_action_pressed("editor_disconnect_selected"):
-		printt("Selected: ", _selected_instructions)
+#		printt("Selected: ", _selected_instructions)
 		for current_instruction in _selected_instructions:
 			for target_instruction in _selected_instructions:
 #				if current_instruction == target_instruction:
