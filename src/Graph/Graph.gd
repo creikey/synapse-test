@@ -49,6 +49,7 @@ func _on_UI_load_data(data_string: String):
 	for node in _currently_displayed.values():
 		node.queue_free()
 	_currently_displayed.clear()
+	_selected_instructions.clear()
 	
 	# load
 	var valid: bool = false
@@ -154,11 +155,36 @@ func _new_instruction(index: int, text: String = "placeholder", complexity: int 
 	cur_instruction.currently_displayed = _currently_displayed
 	cur_instruction.connect("selected", self, "_on_instruction_selected", [cur_instruction])
 
-func _on_instruction_selected(instruction_reference: Instruction):
-	_selected_instructions.append(instruction_reference)
-
 func _unhandled_input(event):
 	if event.is_action_pressed("editor_click"):
 		for instruction in _selected_instructions:
 			instruction.selected = false
 		_selected_instructions.clear()
+	if not _selected_instructions.size() >= 2:
+		return
+	if event.is_action_pressed("editor_connect_selected"): 
+		var to_connect_to: Instruction = _selected_instructions[_selected_instructions.size() - 1]
+		for connecting_from in _selected_instructions.slice(0, _selected_instructions.size() - 1):
+			if not connecting_from.next_step_indices.has(to_connect_to.index):
+				connecting_from.next_step_indices.append(to_connect_to.index)
+				connecting_from.initialize_visually()
+		get_tree().set_input_as_handled()
+	elif event.is_action_pressed("editor_disconnect_selected"):
+		printt("Selected: ", _selected_instructions)
+		for current_instruction in _selected_instructions:
+			for target_instruction in _selected_instructions:
+#				if current_instruction == target_instruction:
+#					continue
+				if current_instruction.next_step_indices.has(target_instruction.index):
+					current_instruction.next_step_indices.erase(target_instruction.index)
+#					_currently_displayed[target_instruction.index].disconnect("moved", current_instruction, "_on_target_moved")
+					
+			current_instruction.initialize_visually()
+		get_tree().set_input_as_handled()
+
+func _on_instruction_selected(instruction_reference: Instruction):
+	_selected_instructions.append(instruction_reference)
+
+#func _unhandled_input(event):
+#
+	

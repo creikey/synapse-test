@@ -34,12 +34,15 @@ func initialize_visually():
 	$V/TextEdit.text = step_text
 	$V/IndexNumber.text = str(index)
 	rect_size = Vector2(300, 200)
-	if not next_step_indices.size() > 0:
-		return
 	for c in $ConnectionLines.get_children():
 		c.queue_free()
+	for instruction in _instruction_to_line_pointing_to_it.keys():
+		instruction.disconnect("moved", self, "_on_target_moved")
 	_instruction_to_line_pointing_to_it.clear()
 	
+	if not next_step_indices.size() > 0:
+		return
+
 	var made_first_line: bool = false
 	for cur_index in next_step_indices:
 		if cur_index == -1:
