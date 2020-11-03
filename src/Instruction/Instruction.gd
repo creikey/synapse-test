@@ -45,8 +45,6 @@ func initialize_visually():
 
 	var made_first_line: bool = false
 	for cur_index in next_step_indices:
-		if cur_index == -1:
-			continue
 		if not currently_displayed.has(cur_index):
 			OS.alert(str("Warning: Index ", index, " has invalid next step index ", cur_index, ", points to nothing!"))
 			continue

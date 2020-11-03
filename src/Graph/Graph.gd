@@ -26,10 +26,7 @@ func get_data() -> String:
 		cur_line += str(index, "	")
 		cur_line += str(_escape_string(cur_instruction.step_text), "	")
 		cur_line += str(cur_instruction.complexity_layer, "	")
-		if cur_instruction.next_step_indices[0] == -1:
-			cur_line += "	"
-		else:
-			cur_line += str(_array_to_string(cur_instruction.next_step_indices), "	")
+		cur_line += str(_array_to_string(cur_instruction.next_step_indices), "	")
 		if cur_instruction.analyzed_bool == null:
 			cur_line += "	"
 		else:
@@ -72,8 +69,8 @@ func _on_UI_load_data(data_string: String):
 		#index, instruction step, complexity, next index
 #		var next_step_indices: Array = int(data[3])
 		var next_step_indices: Array = _intstring_to_array(data[3])
-		if next_step_indices.size() == 0:
-			next_step_indices.append(-1)
+#		if next_step_indices.size() == 0:
+#			next_step_indices.append(-1)
 		var position_override_vector2 = null
 		
 		# TODO analyzed flag
@@ -97,9 +94,23 @@ func _on_UI_load_data(data_string: String):
 		# TODO offset final position if another thing in its spot already ( layer of complexity )
 		var angle: float = (float(i) / float(instructions_in_layer1.size()))*2.0*PI
 		var cur_instruction: Instruction = instructions_in_layer1[i]
+		
+		var seen_instructions: Array = [] # for detecting cyclic references
+		
 		while cur_instruction != null:
 			cur_instruction.rect_position = Vector2(cos(angle), sin(angle)) * ((float(cur_instruction.complexity_layer - 1)*_RING_RADIUS) + _RING_RADIUS/2.0) - cur_instruction.rect_size/2.0
-			cur_instruction = _currently_displayed.get(cur_instruction.next_step_indices[0])
+			
+			
+			if cur_instruction.next_step_indices.size() == 0:
+				cur_instruction = null
+			else:
+				var new_instruction: Instruction = _currently_displayed.get(cur_instruction.next_step_indices[0])
+				if seen_instructions.has(new_instruction):
+					OS.alert(str("Connection from index ", cur_instruction.index, ", to index ", cur_instruction.next_step_indices[0], ", creates a cyclic reference! Removing the connection..."))
+					cur_instruction.next_step_indices.remove(0)
+					cur_instruction = null
+				seen_instructions.append(new_instruction)
+				cur_instruction = new_instruction
 	
 	# iterating again... bad!
 	for cur_instruction in _currently_displayed.values():
@@ -139,7 +150,7 @@ static func _intstring_to_array(s: String) -> Array:
 	
 	return to_return
 
-func _new_instruction(index: int, text: String = "placeholder", complexity: int = 1, next_indices: Array = [ -1 ], position_override_vector2 = null):
+func _new_instruction(index: int, text: String = "placeholder", complexity: int = 1, next_indices: Array = [ ], position_override_vector2 = null):
 	var cur_instruction: Instruction = _INSTRUCTION_PACK.instance()
 	add_child(cur_instruction)
 	
@@ -176,6 +187,8 @@ func _unhandled_input(event):
 	if event.is_action_pressed("editor_connect_selected"): 
 		var to_connect_to: Instruction = _selected_instructions[_selected_instructions.size() - 1]
 		for connecting_from in _selected_instructions.slice(0, _selected_instructions.size() - 1):
+			if connecting_from == to_connect_to:
+				continue
 			if not connecting_from.next_step_indices.has(to_connect_to.index):
 				connecting_from.next_step_indices.append(to_connect_to.index)
 				connecting_from.initialize_visually()
