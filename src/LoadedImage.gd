@@ -25,7 +25,7 @@ func _on_HTTPRequest_request_completed(result, response_code, headers: PoolStrin
 	for s in headers:
 		var lowercase: String = s.to_lower()
 		if lowercase.begins_with(content_type_beginning):
-			filetype_header = lowercase.lstrip(content_type_beginning)
+			filetype_header = lowercase.lstrip(content_type_beginning).split(",")[0]
 			break
 	if filetype_header == "":
 		filetype_header = "image/jpeg"

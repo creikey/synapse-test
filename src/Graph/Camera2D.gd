@@ -10,7 +10,7 @@ var target_zoom: float = 1.0 setget set_target_zoom
 func set_target_zoom(new_target_zoom):
 	target_zoom = clamp(new_target_zoom, ZOOM_MIN, ZOOM_MAX)
 
-func _unhandled_input(event):
+func _input(event):
 	if event is InputEventMouseMotion and Input.is_action_pressed("editor_pan"):
 		global_position -= event.relative*self.zoom.x
 		global_position.x = clamp(global_position.x, self.limit_left, self.limit_right)
