@@ -13,6 +13,7 @@ var complexity_layer: int = 0
 var next_step_indices: Array = []
 var analyzed_bool = null
 var position_override_vector2 = null
+var image: String = "" # URL or data
 
 var currently_displayed: Dictionary = {}
 var _instruction_to_line_pointing_to_it: Dictionary = {}
@@ -64,6 +65,9 @@ func initialize_visually():
 		_instruction_to_line_pointing_to_it[target_instruction] = cur_line
 		
 		_update_line_target(target_instruction)
+	if image != "" and not $V/LoadedImage.visible:
+		$V/LoadedImage.url = image
+		$V/LoadedImage.load_image()
 
 func _input(event):
 	if event is InputEventMouseMotion and selected and Input.is_action_pressed("editor_click"):

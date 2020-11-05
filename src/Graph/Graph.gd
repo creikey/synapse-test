@@ -6,7 +6,7 @@ export var ring_color_brightest: = Color(1, 1, 1)
 
 const _RING_RADIUS: float = 500.0
 const _INSTRUCTION_PACK: PackedScene = preload("res://Instruction/Instruction.tscn")
-const _EXPECTED_COLUMNS: int = 6
+const _EXPECTED_COLUMNS: int = 7
 
 # index to node reference
 var _currently_displayed: Dictionary = {}
@@ -18,7 +18,7 @@ var _selected_instructions: Array = []
 
 func get_data() -> String:
 	# has the header line as the top
-	var lines_to_return: Array = ["index	Instructional Step	Complexity Layer ( starts at 1 )	The next step's indices	Analyzed ( true/false ), if blank will be false	Position Override ( if blank auto sorts )"]
+	var lines_to_return: Array = ["index	Instructional Step	Complexity Layer ( starts at 1 )	The next step's indices	Analyzed ( true/false ), if blank will be false	Position Override ( if blank auto sorts )	Image ( URL or data from application )"]
 	
 	for index in _currently_displayed.keys():
 		var cur_line: String = ""
@@ -32,9 +32,14 @@ func get_data() -> String:
 		else:
 			cur_line += str(var2str(cur_instruction.analyzed_bool), "	")
 		if cur_instruction.position_override_vector2 == null:
-			pass
+			cur_line += "	"
 		else:
-			cur_line += var2str(cur_instruction.position_override_vector2)
+			cur_line += str(var2str(cur_instruction.position_override_vector2), "	")
+#		if cur_instruction.image == "":
+#			cur_line += "	"
+#		else:
+#			cur_line += var2str(cur_instruction.image)
+		cur_line += cur_instruction.image
 		lines_to_return.append(cur_line)
 		
 	
@@ -78,7 +83,7 @@ func _on_UI_load_data(data_string: String):
 		if data[5] != "":
 			position_override_vector2 = str2var(data[5])
 
-		_new_instruction(int(data[0]), _unescape_string(data[1]), int(data[2]), next_step_indices, position_override_vector2)
+		_new_instruction(int(data[0]), _unescape_string(data[1]), int(data[2]), next_step_indices, position_override_vector2, data[6])
 		line_number += 1
 
 	# initialize visuals after all have been loaded, to get rect size for sorting
@@ -150,7 +155,7 @@ static func _intstring_to_array(s: String) -> Array:
 	
 	return to_return
 
-func _new_instruction(index: int, text: String = "placeholder", complexity: int = 1, next_indices: Array = [ ], position_override_vector2 = null):
+func _new_instruction(index: int, text: String = "placeholder", complexity: int = 1, next_indices: Array = [ ], position_override_vector2 = null, image: String = ""):
 	var cur_instruction: Instruction = _INSTRUCTION_PACK.instance()
 	add_child(cur_instruction)
 	
@@ -164,6 +169,7 @@ func _new_instruction(index: int, text: String = "placeholder", complexity: int 
 	cur_instruction.next_step_indices = next_indices.duplicate(true)
 	cur_instruction.position_override_vector2 = position_override_vector2
 	cur_instruction.currently_displayed = _currently_displayed
+	cur_instruction.image = image
 	cur_instruction.connect("selected", self, "_on_instruction_selected", [cur_instruction])
 
 func _release_focus():
