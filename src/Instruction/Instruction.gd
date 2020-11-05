@@ -41,6 +41,10 @@ func initialize_visually():
 		instruction.disconnect("moved", self, "_on_target_moved")
 	_instruction_to_line_pointing_to_it.clear()
 	
+	if image != "" and not $V/LoadedImage.visible:
+		$V/LoadedImage.url = image
+		$V/LoadedImage.load_image()
+	
 	if not next_step_indices.size() > 0:
 		return
 
@@ -65,9 +69,7 @@ func initialize_visually():
 		_instruction_to_line_pointing_to_it[target_instruction] = cur_line
 		
 		_update_line_target(target_instruction)
-	if image != "" and not $V/LoadedImage.visible:
-		$V/LoadedImage.url = image
-		$V/LoadedImage.load_image()
+	
 
 func _input(event):
 	if event is InputEventMouseMotion and selected and Input.is_action_pressed("editor_click"):
