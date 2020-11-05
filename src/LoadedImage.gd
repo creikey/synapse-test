@@ -12,6 +12,7 @@ var url: String = "https://static.scientificamerican.com/sciam/cache/file/7A715A
 
 func load_image():
 	visible = true
+	_resize_to_image_height()
 	var err: int = $HTTPRequest.request(url)
 	if err != OK:
 		OS.alert(str("Failed to create HTTP request for url: ", url, " , error: ", err))
@@ -47,6 +48,12 @@ func _on_HTTPRequest_request_completed(result, response_code, headers: PoolStrin
 	texture = ImageTexture.new()
 	texture.create_from_image(image)
 	
-	var resize_ratio: float = rect_size.x / texture.get_size().x
-	
+	_resize_to_image_height()
+
+func _resize_to_image_height() -> void:
+	var resize_ratio: float = get_parent().rect_size.x / texture.get_size().x
 	rect_min_size.y = texture.get_size().y * resize_ratio
+	rect_size.y = rect_min_size.y
+	var outer_instruction: Control = get_parent().get_parent()
+	outer_instruction.set_deferred("rect_size", Vector2(outer_instruction.rect_size.x, 0.0))
+	printt(rect_min_size, rect_size)
