@@ -181,11 +181,14 @@ func _input(event):
 	if event.is_action("editor_escape"):
 		_release_focus()
 
+func _deselect_all_instructions() -> void:
+	for instruction in _selected_instructions:
+			instruction.selected = false
+	_selected_instructions.clear()
+
 func _unhandled_input(event):
 	if event.is_action_pressed("editor_click"):
-		for instruction in _selected_instructions:
-			instruction.selected = false
-		_selected_instructions.clear()
+		_deselect_all_instructions()
 		_release_focus()
 
 	if not _selected_instructions.size() >= 2:
@@ -213,6 +216,8 @@ func _unhandled_input(event):
 		get_tree().set_input_as_handled()
 
 func _on_instruction_selected(instruction_reference: Instruction):
+	if not Input.is_key_pressed(KEY_SHIFT):
+		_deselect_all_instructions()
 	_selected_instructions.append(instruction_reference)
 
 #func _unhandled_input(event):

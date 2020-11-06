@@ -18,8 +18,8 @@ func load_image():
 		OS.alert(str("Failed to create HTTP request for url: ", url, " , error: ", err))
 
 func _on_HTTPRequest_request_completed(result, response_code, headers: PoolStringArray, body):
-#	printt(result, response_code, headers, body)
-#	printt("Body size: ", body.size())
+	printt(result, response_code, headers, body)
+	printt("Body size: ", body.size())
 	
 	var filetype_header: String = ""
 	for s in headers:
@@ -56,4 +56,4 @@ func _resize_to_image_height() -> void:
 	rect_size.y = rect_min_size.y
 	var outer_instruction: Control = get_parent().get_parent()
 	outer_instruction.set_deferred("rect_size", Vector2(outer_instruction.rect_size.x, 0.0))
-	printt(rect_min_size, rect_size)
+#	printt(rect_min_size, rect_size)
